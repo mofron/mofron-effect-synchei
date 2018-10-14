@@ -1,5 +1,6 @@
 /**
  * @file mofron-effect-synchei/index.js
+ * @brief synchronize height of target component and height of effect component
  * @author simpart
  */
 const mf = require('mofron');
@@ -12,7 +13,7 @@ mf.effect.SyncHei = class extends mf.Effect {
     constructor (po, p2) {
         try {
             super();
-            this.prmMap('tgtComp', 'offset');
+            this.prmMap(['tgtComp', 'offset']);
             this.name('SyncHei');
             this.prmOpt(po, p2);
         } catch (e) {
@@ -21,52 +22,54 @@ mf.effect.SyncHei = class extends mf.Effect {
         }
     }
     
+    /**
+     * setter/getter for height listen target component
+     * it triggers this effect when height of target component was changed.
+     *
+     * @param prm (Component) target component
+     * @param prm (undefined) call as getter
+     * @return (Component) target component
+     * @return (null) not set yet
+     */
     tgtComp (prm) {
         try {
-            if (undefined === prm) {
-                /* getter */
-                return (undefined === this.m_tgtcomp) ? null : this.m_tgtcomp;
-            }
-            /* setter */
-            if (true !== mf.func.isInclude(prm, 'Component')) {
-                throw new Error('invalid parameter');
-            }
-            this.m_tgtcomp = prm;
-            prm.styleTgt().styleListener(
-                'height',
-                (p1,p2,sync) => {
-                    try {
-                       if (true === sync.status()) {
-                           sync.execute(true);
-                       }
-                    } catch (e) {
+            let ret = this.member('tgtComp', 'Component', prm);
+            if (undefined !== prm) {
+                let syn_fnc = (p1,p2,sync) => {
+                    try { sync.execute(true); } catch (e) {
                         console.error(e.stack);
                         throw e;
                     }
-                },
-                this
-            );
-            
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    offset (prm) {
-        try {
-            if (undefined === prm) {
-                /* getter */
-                return (undefined === this.m_offset) ? '0rem' : this.m_offset;
+                }
+                prm.styleTgt().styleListener('height', syn_fnc, this);
             }
-            /* setter */
-            this.m_offset = mf.func.getSizeObj(prm);
+            return ret;
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
+    /**
+     * setter/getter offset value
+     * this value is used for height adjustment
+     *
+     * @param prm (string) css style size value (default is '0rem')
+     * @param prm (undefined) call as getter
+     * @return (string) offset value
+     */
+    offset (prm) {
+        try { return this.member('offset', 'string', prm, '0rem'); } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    /**
+     * synchronize height size
+     *
+     * @note private method
+     */
     enable (cmp) {
         try {
             if (null === this.tgtComp()) {
