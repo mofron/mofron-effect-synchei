@@ -13,7 +13,7 @@ mf.effect.SyncHei = class extends mf.Effect {
     constructor (po, p2) {
         try {
             super();
-            this.prmMap(['tgtComp', 'offset']);
+            this.prmMap(['targetComp', 'offset']);
             this.name('SyncHei');
             this.prmOpt(po, p2);
         } catch (e) {
@@ -31,9 +31,9 @@ mf.effect.SyncHei = class extends mf.Effect {
      * @return (Component) target component
      * @return (null) not set yet
      */
-    tgtComp (prm) {
+    targetComp (prm) {
         try {
-            let ret = this.member('tgtComp', 'Component', prm);
+            let ret = this.member('targetComp', 'Component', prm);
             if (undefined !== prm) {
                 let syn_fnc = (p1,p2,sync) => {
                     try { sync.execute(true); } catch (e) {
@@ -59,7 +59,7 @@ mf.effect.SyncHei = class extends mf.Effect {
      * @return (string) offset value
      */
     offset (prm) {
-        try { return this.member('offset', 'string', prm, '0rem'); } catch (e) {
+        try { return this.member('offset', 'string', prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -72,11 +72,11 @@ mf.effect.SyncHei = class extends mf.Effect {
      */
     enable (cmp) {
         try {
-            if (null === this.tgtComp()) {
-                this.tgtComp(this.component().parent());
+            if (null === this.targetComp()) {
+                this.targetComp(this.component().parent());
             }
             cmp.height(
-                mf.func.sizeSum(this.tgtComp().height(), this.offset())
+                mf.func.sizeSum(this.targetComp().height(), this.offset())
             );
         } catch (e) {
             console.error(e.stack);
