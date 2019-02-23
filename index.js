@@ -36,7 +36,7 @@ mf.effect.SyncHei = class extends mf.Effect {
             let ret = this.member('targetComp', 'Component', prm);
             if (undefined !== prm) {
                 let syn_fnc = (p1,p2,sync) => {
-                    try { sync.execute(true); } catch (e) {
+                    try { sync.execute(); } catch (e) {
                         console.error(e.stack);
                         throw e;
                     }
@@ -70,7 +70,7 @@ mf.effect.SyncHei = class extends mf.Effect {
      *
      * @note private method
      */
-    enable (cmp) {
+    contents (cmp) {
         try {
             if (null === this.targetComp()) {
                 this.targetComp(this.component().parent());
@@ -83,8 +83,6 @@ mf.effect.SyncHei = class extends mf.Effect {
             throw e;
         }
     }
-    
-    disable () {}
 }
 module.exports = mf.effect.SyncHei;
 /* end of file */
