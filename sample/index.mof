@@ -1,0 +1,8 @@
+<require>
+    <tag load="mofron-comp-text">Text</tag>
+    <tag load="mofron-comp-frame">Frame</tag>
+    <tag load="mofron-effect-synchei">SyncHei</tag>
+</require>
+<Frame name=frm size=(3rem,1rem)>
+    <Text effect=SynHei(frm,"-0.3rem")>Sync Height</Text>
+</Frame>

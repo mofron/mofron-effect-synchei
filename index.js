@@ -1,21 +1,33 @@
 /**
  * @file mofron-effect-synchei/index.js
- * @brief synchronize height of target component and height of effect component
- * @author simpart
+ * @brief it synchronizes the height of the target component and height of effect component.
+ *        this effect resizes height when the height of the target component changed.
+ * @license MIT
  */
-const mf = require('mofron');
-/**
- * @class SyncHei
- * @brief radius style effect class
- */
-mf.effect.SyncHei = class extends mf.Effect {
-    
-    constructor (po, p2) {
+const comutl = mofron.util.common;
+
+module.exports = class extends mofron.class.Effect {
+    /**
+     * constructor
+     * 
+     * @param (mixed) string: targetComp parameter
+     *                key-value: effect config
+     * @param (string) offset parameter
+     * @short targetComp,offset
+     * @type private
+     */
+    constructor (p1, p2) {
         try {
             super();
-            this.prmMap(['targetComp', 'offset']);
+            /* init config */
+	    this.confmng().add('targetComp', { type: 'Component' });
+	    this.confmng().add('offset', { type: 'size' });
             this.name('SyncHei');
-            this.prmOpt(po, p2);
+            this.shortForm('targetComp', 'offset');
+            /* set config */
+	    if (0 < arguments.length) {
+                this.config(p1,p2);
+	    }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -26,22 +38,24 @@ mf.effect.SyncHei = class extends mf.Effect {
      * setter/getter for height listen target component
      * it triggers this effect when height of target component was changed.
      *
-     * @param prm (Component) target component
-     * @param prm (undefined) call as getter
-     * @return (Component) target component
-     * @return (null) not set yet
+     * @param (Component) target component
+     * @return (mixed) Component: target component
+     *                 null: not set yet
+     * @type parameter
      */
     targetComp (prm) {
         try {
-            let ret = this.member('targetComp', 'Component', prm);
+            let ret = this.confmng('targetComp', prm);
             if (undefined !== prm) {
                 let syn_fnc = (p1,p2,sync) => {
-                    try { sync.execute(); } catch (e) {
+                    try {
+		        sync.execute();
+                    } catch (e) {
                         console.error(e.stack);
                         throw e;
                     }
                 }
-                prm.styleTgt().styleListener('height', syn_fnc, this);
+                prm.styleDom().style().listener('height', syn_fnc, this);
             }
             return ret;
         } catch (e) {
@@ -54,12 +68,15 @@ mf.effect.SyncHei = class extends mf.Effect {
      * setter/getter offset value
      * this value is used for height adjustment
      *
-     * @param prm (string) css style size value (default is '0rem')
-     * @param prm (undefined) call as getter
-     * @return (string) offset value
+     * @param (string (size)) css style size value
+     * @return (mixed) string: offset value
+     *                 null: not set
+     * @type parameter
      */
     offset (prm) {
-        try { return this.member('offset', 'string', prm); } catch (e) {
+        try {
+	    return this.confmng('offset', prm);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -68,7 +85,7 @@ mf.effect.SyncHei = class extends mf.Effect {
     /**
      * synchronize height size
      *
-     * @note private method
+     * @type private
      */
     contents (cmp) {
         try {
@@ -76,7 +93,7 @@ mf.effect.SyncHei = class extends mf.Effect {
                 this.targetComp(this.component().parent());
             }
             cmp.height(
-                mf.func.sizeSum(this.targetComp().height(), this.offset())
+                comutl.sizesum(this.targetComp().height(), this.offset())
             );
         } catch (e) {
             console.error(e.stack);
@@ -84,5 +101,4 @@ mf.effect.SyncHei = class extends mf.Effect {
         }
     }
 }
-module.exports = mf.effect.SyncHei;
 /* end of file */
