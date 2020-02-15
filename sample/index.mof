@@ -4,5 +4,5 @@
     <tag load="mofron-effect-synchei">SyncHei</tag>
 </require>
 <Frame name=frm size=(3rem,1rem)>
-    <Text effect=SynHei(frm,"-0.3rem")>Sync Height</Text>
+    <Text effect=SynHei:(@frm,"-0.3rem")>Sync Height</Text>
 </Frame>

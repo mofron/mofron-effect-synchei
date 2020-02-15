@@ -1,7 +1,7 @@
 /**
  * @file mofron-effect-synchei/index.js
- * @brief it synchronizes the height of the target component and height of effect component.
- *        this effect resizes height when the height of the target component changed.
+ * @brief synchronize height of target component and height of effect component
+ *        this effect resizes height of a target component when the height of the target component changed.
  * @license MIT
  */
 const comutl = mofron.util.common;
@@ -38,9 +38,10 @@ module.exports = class extends mofron.class.Effect {
      * setter/getter for height listen target component
      * it triggers this effect when height of target component was changed.
      *
-     * @param (Component) target component
-     * @return (mixed) Component: target component
-     *                 null: not set yet
+     * @param (mofron.class.Component) target component
+     *                                 undefined: call as getter
+     * @return (mixed) mofron.class.Component: target component
+     *                 null: not set
      * @type parameter
      */
     targetComp (prm) {
@@ -65,12 +66,12 @@ module.exports = class extends mofron.class.Effect {
     }
     
     /**
-     * setter/getter offset value
+     * offset value setter/getter
      * this value is used for height adjustment
      *
-     * @param (string (size)) css style size value
-     * @return (mixed) string: offset value
-     *                 null: not set
+     * @param (string(size)) offset value (default is '0rem')
+     *                       undefined: call as getter
+     * @return (string) offset value
      * @type parameter
      */
     offset (prm) {

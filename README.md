@@ -1,9 +1,9 @@
 # mofron-effect-synchei
 [mofron](https://mofron.github.io/mofron/) is module based frontend framework.
 
-it synchronizes the height of the target component and height of effect component.
+synchronize height of target component and height of effect component
 
-this effect resizes height when the height of the target component changed.
+this effect resizes height of a target component when the height of the target component changed.
 
 
 # Install
@@ -19,7 +19,7 @@ npm install mofron mofron-effect-synchei
     <tag load="mofron-effect-synchei">SyncHei</tag>
 </require>
 <Frame name=frm size=(3rem,1rem)>
-    <Text effect=SynHei(frm,"-0.3rem")>Sync Height</Text>
+    <Text effect=SynHei:(@frm,"-0.3rem")>Sync Height</Text>
 </Frame>
 ```
 
@@ -27,6 +27,8 @@ npm install mofron mofron-effect-synchei
 
 | Short<br>Form | Parameter Name | Type | Description |
 |:-------------:|:---------------|:-----|:------------|
-| ◯  | targetComp | Component | target component |
-| ◯  | offset | string (size) | css style size value |
+| ◯  | targetComp | mofron.class.Component | target component |
+| | | | undefined: call as getter |
+| ◯  | offset | string(size) | offset value (default is '0rem') |
+| | | | undefined: call as getter |
 
