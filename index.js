@@ -19,11 +19,13 @@ module.exports = class extends mofron.class.Effect {
     constructor (p1, p2) {
         try {
             super();
+	    this.modname('SyncHei');
+            this.shortForm('targetComp', 'offset');
+            
             /* init config */
 	    this.confmng().add('targetComp', { type: 'Component' });
-	    this.confmng().add('offset', { type: 'size' });
-            this.name('SyncHei');
-            this.shortForm('targetComp', 'offset');
+	    this.confmng().add('offset',     { type: 'size' });
+	    
             /* set config */
 	    if (0 < arguments.length) {
                 this.config(p1,p2);
